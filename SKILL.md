@@ -195,7 +195,24 @@ run_py = (
 
 **解决**：必须 `cd` 到文件所在目录，使用相对路径 `./report.md`。
 
-### Pitfall 4: 软链接 vs 物理拷贝的权衡
+### Pitfall 4: verify.py 的返回值结构必须和 packager.py 解包一致
+**问题**：`verify.py` 的 `check_dependencies()` 最初返回 3 个值 `(ok, missing, found)`，但 `packager.py` 里的 `run.py` 模板只解包 2 个，导致运行时 `ValueError`。
+
+**解决**：模板代码中必须匹配 verify.py 的返回值数量。如果 verify.py 改了返回结构，模板必须同步更新。
+
+### Pitfall 5: GitHub PAT 推送的安全做法
+**问题**：`git push` 需要认证，但当前环境没有全局配置 GitHub 凭证。
+
+**解决**：临时将 PAT 写入 remote URL 完成 push，成功后立即恢复为干净 URL：
+```bash
+# 临时写入 PAT
+git remote set-url origin https://用户名:TOKEN@github.com/用户/仓库.git
+git push -u origin main
+# 成功后立即恢复（token 不会留在本地配置）
+git remote set-url origin https://github.com/用户/仓库.git
+```
+
+### Pitfall 6: 软链接 vs 物理拷贝的权衡
 当前系统可能有大量重复 skills（同一 skill 出现在 main + 多个 profile）。物理拷贝占用空间但 profile 隔离性好；软链接省空间但修改会全局影响。建议：
 - 先用 `discover.py` 扫描出重复列表
 - 对纯只读的 skills（无本地状态）转软链接
