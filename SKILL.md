@@ -1,7 +1,7 @@
 ---
 name: skill-packager
 description: "元技能：发现系统中的所有 skills，分析它们的关联，打包成可迁移的工作流包，并在其他 Hermes 实例上安装使用。像一个 Skill 工厂，把散落的工具组装成标准化流水线。"
-version: 1.1.0
+version: 1.1.1
 author: OPC Team
 license: MIT
 platforms: [linux, macos]
