@@ -1,0 +1,2 @@
+# skill-packager 无外部 Python 依赖
+# 仅使用标准库: os, json, re, shutil, subprocess, argparse, pathlib, datetime, collections
